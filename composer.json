@@ -1,0 +1,15 @@
+{
+    "name":        "widgento/phing-license",
+    "type":        "library",
+    "license":     "Widgento Modules License", 
+    "description": "Library to add copyright info to project files", 
+    "authors": [
+        {
+            "name":  "Widgento",
+            "email": "info@widgento.com"
+        }
+    ],
+    "require-dev": {
+        "phing/phing": "2.*"
+    }
+}
