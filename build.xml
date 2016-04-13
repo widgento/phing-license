@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Widgento_Core" default="archive">
-    <includepath classpath="./src" />
-    <taskdef name="addlicense" classname="AddLicense" />
+<project name="Widgento_PhingLicense" default="license">
+    <autoloader autoloaderpath="vendor/autoload.php" />
+    <taskdef name="addlicense" classname="Widgento\PhingLicense\AddLicense" />
+    <property name="buildsrc" value="./var/src" override="true" />
+    <property name="src" value="./src" override="true" />
+
+    <target name="license_prepare">
+        <echo msg="Making build directory" />
+        <mkdir dir="${buildsrc}" />
+
+        <echo msg="Copying files to build directory..." />
+        <copy todir="${buildsrc}">
+            <fileset dir="${src}">
+                <include name="**" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="license" depends="license_prepare">
+        <addlicense srcpath="${buildsrc}" module="${phing.project.name}" />
+    </target>
 </project>

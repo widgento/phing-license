@@ -1,6 +1,10 @@
 <?php
 
-require_once 'phing/Task.php';
+namespace Widgento\PhingLicense;
+
+use Task;
+use RecursiveDirectoryIterator;
+use FilesystemIterator;
 
 class AddLicense extends Task {
     const LICENSE_TEXT_FILE     = 'license.txt';
@@ -55,7 +59,7 @@ class AddLicense extends Task {
         return $this->licensePath;
     }
 
-    protected function addLicenseSome($path) {
+    protected function addLicense($path) {
         if (file_exists($path) && !is_dir($path)) {
             $nameParts = explode('.', basename($path));
             $extension = array_pop($nameParts);
@@ -86,11 +90,16 @@ class AddLicense extends Task {
                 continue;
             }
 
-            $this->addLicenseSome($child->getRealPath());
+            $this->addLicense($child->getRealPath());
         }
     }
 
     public function main() {
-        $this->addLicenseSome($this->getSrcPath());
+        $this->addLicense($this->getSrcPath());
+    }
+
+    public function init() {
+        $licensePath = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'license';
+        $this->setLicensePath($licensePath);
     }
 }
